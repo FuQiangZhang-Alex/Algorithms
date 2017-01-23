@@ -10,9 +10,10 @@ class UF:
         return (self.root(a) == self.root(b))
 
     def root(self, i):
-    	while self.id[i] != i:
-    		i = self.id[i]
-    	return i
+        while self.id[i] != i:
+            self.id[i] = self.id[self.id[i]]  # path compression
+            i = self.id[i]
+        return i
 
     def union(self, a, b):
         a_root = self.root(a)
@@ -24,7 +25,7 @@ class UF:
             self.id[b_root] = a_root
             self.sz[a_root] += self.sz[b_root]
 
-generate(1000000)
+generate(2000000)
 input = open(file='test.data', mode='r', encoding='utf-8')
 str_N = input.readline().rstrip('\n')
 N = int(str_N) if str_N.isnumeric() else 0
